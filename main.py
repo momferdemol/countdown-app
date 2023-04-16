@@ -1,16 +1,18 @@
-from datetime import datetime
-
+import helper
+import functions
 
 user_input = input("Enter your goal with a deadline separated by a colon.\n")
-input_list = user_input.split(":")
 
-goal = input_list[0]
-deadline = input_list[1]
+goal = functions.return_goal(user_input)
+deadline = functions.return_deadline(user_input)
 
-deadline_date = datetime.strptime(deadline, "%d-%m-%Y")
-today_date = datetime.today()
-time_till = deadline_date - today_date
+validate_deadline = helper.validate_date_input(deadline)
 
-hours_till = int(time_till.total_seconds() / 60 / 60)
-print(f"hi there! Time remaining for your goal: {goal} is {time_till.days} days, or {hours_till} hours.")
+if validate_deadline == False:
+    print("\n You suck! Game over..\n")
+    SystemExit
+else:
+    days_till = functions.calculate_days(deadline)
+    hours_till = functions.calculate_hours(deadline)
+    print(f"\n hi there! Time remaining for your goal: {goal} is {days_till.days} days, or {hours_till} hours.\n")
 
